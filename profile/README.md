@@ -41,3 +41,9 @@ Julia has a rich ecosystem composed of registries.  Julia's [General Registry](h
 
 ## Continuous Integration
 To facilitate higher software quality, it is good to establish a Continuous Integration (CI) pipeline, which is a set of things that are run when some condition is hit.  In the E4ST.jl repository, for example, the CI pipeline is run for Pull Requests.  It basically runs through all the tests in the package.  See [Julia's Unit Testing documentation](https://docs.julialang.org/en/v1/stdlib/Test/) for more information on unit testing.
+
+### Testing
+For testing, all files belong in the test folder.  The main file that is run is `test/runtests.jl`.  From there, the tests are broken up into test sets.  In order to run all the tests in the same way that would be run in the pipeline, you would run `]` to open the package manager, then type `test E4ST`.  This will freshly download all dependencies and run in a clean julia environment.  Since it has to download dependencies, it may take a while to run.  If you are developing tests and want to run them faster, you could run `include("test/runtests.jl")` directly to run the tests without having the extra runtime in creating a fresh julia environment.
+
+### Benchmarking
+For key functionality, we may wish to benchmark them to make sure that they are fast and efficient.  The benchmark framework compares the branch to the main branch.  for an example of the benchmark output, see [here](https://github.com/e4st-dev/E4ST.jl/pull/28#issuecomment-1282994388).  Benchmarks go in `benchmark/benchmarks.jl`, and should be added to the `SUITE` variable.
