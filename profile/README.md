@@ -24,6 +24,7 @@ It depends.  If it is a nominal, small example used for testing, this absolutely
    *  `feat` for a feature I'm adding or expanding
    *  `bug` for a bug fix
    *  `junk` for a throwaway branch created to experiment
+   *  `doc` for a documentation branch 
 *  Include issue number if applicable
 *  Include a short description of the issue
 *  Use dashes as a separator
