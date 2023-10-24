@@ -41,10 +41,28 @@ For consistency, let's try to follow the [Blue Style Guide](https://github.com/i
 Julia has a rich ecosystem composed of registries.  Julia's [General Registry](https://github.com/JuliaRegistries/General) contains over 7,000 packages, all available with the super simple process of typing `add PackageName` in julia's package manager.  That will then download and install all the package dependencies, which can be many.  This is a beautiful thing, and we want to strive towards getting our packages onto this registry as well so that others can use them.  Please see [this link](https://julialang.org/contribute/developing_package/#how_to_develop_a_julia_package) for an overview of developing a julia package, including how to add additional dependencies.
 
 ## Continuous Integration
-To facilitate higher software quality, it is good to establish a Continuous Integration (CI) pipeline, which is a set of things that are run when some condition is hit.  In the E4ST.jl repository, for example, the CI pipeline is run for Pull Requests.  It basically runs through all the tests in the package.  See [Julia's Unit Testing documentation](https://docs.julialang.org/en/v1/stdlib/Test/) for more information on unit testing.
+To facilitate higher software quality, it is good to establish a Continuous Integration (CI) pipeline, which is a set of things that are run when some condition is hit.
+In the E4ST.jl repository, for example, the CI pipeline is triggered on Pull Requests.
+See [Julia's Unit Testing documentation](https://docs.julialang.org/en/v1/stdlib/Test/) for more information on unit testing.  If set up correctly, Github can run these automatically on their own servers via [workflows](https://docs.github.com/en/actions/using-workflows/about-workflows).  To see the E4ST.jl workflows, go [here](https://github.com/e4st-dev/E4ST.jl/blob/main/.github/workflows/).
 
 ### Testing
-For testing, all files belong in the test folder.  The main file that is run is `test/runtests.jl`.  From there, the tests are broken up into test sets.  In order to run all the tests in the same way that would be run in the pipeline, you would run `]` to open the package manager, then type `test E4ST`.  This will freshly download all dependencies and run in a clean julia environment.  Since it has to download dependencies, it may take a while to run.  If you are developing tests and want to run them faster, you could run `include("test/runtests.jl")` directly to run the tests without having the extra runtime in creating a fresh julia environment.
+For testing, all files belong in the test folder.  Julia's convention is to run a single file, `test/runtests.jl`, which may also include other test files within that same folder.
+From there, the tests are broken up into test sets.
+In order to run all the tests in the same way that would be run in the pipeline, you would run `]` to open the package manager, then type `test PackageName`.
+This will freshly download all dependencies and run in a clean julia environment.
+Since it has to download dependencies, it may take a while to run.
+If you are developing tests and want to run them faster and/or repeatedly, you could run `include("test/runtests.jl")` directly to run the tests without having the extra runtime in creating a fresh julia environment.
+See the tests set up in (E4ST.jl/test)[https://github.com/e4st-dev/E4ST.jl/tree/main/test]
 
 ### Benchmarking
-For key functionality, we may wish to benchmark them to make sure that they are fast and efficient.  The benchmark framework compares the branch to the main branch.  for an example of the benchmark output, see [here](https://github.com/e4st-dev/E4ST.jl/pull/28#issuecomment-1282994388).  Benchmarks go in `benchmark/benchmarks.jl`, and should be added to the `SUITE` variable.
+For key functionality, we may wish to ensure that code changes do not change the runtime or memory usage.
+One way to do this would be via benchmarks.
+Fortunately, julia has a built-in benchmark framework that compares the branch to the main branch.
+For an example of the benchmark output, see [here](https://github.com/e4st-dev/E4ST.jl/pull/28#issuecomment-1282994388).
+Benchmarks go in `benchmark/benchmarks.jl`, and should be added to the `SUITE` variable.
+See the benchmarks set up in (E4ST.jl/benchmark)[https://github.com/e4st-dev/E4ST.jl/tree/main/benchmark].
+
+## Registering a Package
+If a package would be useful to a wider julia community, it may be worth registering it. 
+[Here](https://github.com/JuliaRegistries/Registrator.jl) are the steps to prepare a package to be registered.
+
